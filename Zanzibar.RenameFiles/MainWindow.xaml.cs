@@ -38,12 +38,12 @@ namespace Zanzibar.RenameFiles
             using (FolderBrowserDialog dlg = new FolderBrowserDialog())
             {
                 dlg.Description = "Select the folder";
-               dlg.ShowNewFolderButton = true;
+                dlg.ShowNewFolderButton = true;
                 DialogResult result = dlg.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     txtDirectoryName.Text = dlg.SelectedPath;
-                
+
                 }
             }
         }
@@ -62,25 +62,28 @@ namespace Zanzibar.RenameFiles
 
         private void RenameFiles(string directoryName)
         {
-           
+
             DirectoryInfo d = new DirectoryInfo(directoryName);
             FileSystemInfo[] infos = d.GetFileSystemInfos();
 
 
             foreach (FileSystemInfo f in infos)
             {
-                FileAttributes attr = File.GetAttributes(f.FullName);
-                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
-                    RenameFiles(f.FullName);
-                // Files in directory
-                else
+                if (!(f.Name.ToUpper().Equals("THUMBS.DB")))
                 {
-                    FileInfo fileInfo = new FileInfo(f.FullName);
-                    var fileName = fileInfo.Name;
-                    var fileNumber = fileName.Substring(0, fileName.IndexOf("."));
-                    var fileNameWithOutNumber = fileName.Substring(fileName.IndexOf(".") + 1);
-                    var newFileName = fileInfo.DirectoryName + "\\" + int.Parse(fileNumber).ToString("D2") + "." + fileNameWithOutNumber;
-                    File.Move(fileInfo.FullName, newFileName);
+                    FileAttributes attr = File.GetAttributes(f.FullName);
+                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                        RenameFiles(f.FullName);
+                    // Files in directory
+                    else
+                    {
+                        FileInfo fileInfo = new FileInfo(f.FullName);
+                        var fileName = fileInfo.Name;
+                        var fileNumber = fileName.Substring(0, fileName.IndexOf("."));
+                        var fileNameWithOutNumber = fileName.Substring(fileName.IndexOf(".") + 1);
+                        var newFileName = fileInfo.DirectoryName + "\\" + int.Parse(fileNumber).ToString("D2") + "." + fileNameWithOutNumber;
+                        File.Move(fileInfo.FullName, newFileName);
+                    }
                 }
             }
         }
