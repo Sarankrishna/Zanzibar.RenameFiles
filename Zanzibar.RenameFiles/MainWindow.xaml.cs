@@ -37,7 +37,7 @@ namespace Zanzibar.RenameFiles
         {
             using (FolderBrowserDialog dlg = new FolderBrowserDialog())
             {
-                dlg.Description = "Select the folder";
+                dlg.Description = "Select the folder :";
                 dlg.ShowNewFolderButton = true;
                 DialogResult result = dlg.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
