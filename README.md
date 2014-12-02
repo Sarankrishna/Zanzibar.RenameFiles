@@ -1,5 +1,4 @@
 Zanzibar.RenameFiles
 ====================
 
-Zanzibar.RenameFiles
-test
+This is sample code is used for number of the file.
