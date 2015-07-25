@@ -59,7 +59,12 @@ namespace Zanzibar.RenameFiles
             System.Windows.MessageBox.Show("Renamed Successfully!");
         }
 
-
+        private bool IsNumber(string strNumber)
+        {
+            int n;
+            bool isNumeric = int.TryParse(strNumber, out n);
+            return isNumeric;
+        }
         private void RenameFiles(string directoryName)
         {
 
@@ -80,9 +85,12 @@ namespace Zanzibar.RenameFiles
                         FileInfo fileInfo = new FileInfo(f.FullName);
                         var fileName = fileInfo.Name;
                         var fileNumber = fileName.Substring(0, fileName.IndexOf("."));
-                        var fileNameWithOutNumber = fileName.Substring(fileName.IndexOf(".") + 1);
-                        var newFileName = fileInfo.DirectoryName + "\\" + int.Parse(fileNumber).ToString("D2") + "." + fileNameWithOutNumber;
-                        File.Move(fileInfo.FullName, newFileName);
+                        if (IsNumber(fileNumber))
+                        {
+                            var fileNameWithOutNumber = fileName.Substring(fileName.IndexOf(".") + 1);
+                            var newFileName = fileInfo.DirectoryName + "\\" + int.Parse(fileNumber).ToString("D2") + "." + fileNameWithOutNumber;
+                            File.Move(fileInfo.FullName, newFileName);
+                        }
                     }
                 }
             }
